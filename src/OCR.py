@@ -66,44 +66,24 @@ def run(image_path):
 
 
 if __name__ == "__main__":
-
-    #Clear the old data in running_time.txt
-    if not os.path.exists('output'):
-        os.mkdir('output')
-    open('output/running_time.txt', 'w').close()
-
-    destination = 'output/text'
-    if not os.path.exists(destination):
-        os.makedirs(destination)
-    
     types = ['png', 'jpg', 'bmp']
     images_paths = []
+
     for t in types:
         images_paths.extend(glob(f'test/*.{t}'))
+
     before = time.time()
 
-    # pool = mp.Pool(mp.cpu_count())
+    for image_path in tqdm(images_paths, total=len(images_paths)):
+        # نفذ الدالة اللي تستخرج النص
+        result = run(image_path)   # نتيجتها (id, text)
 
-    # # Method1
-    # for image_path in images_paths:
-    #     pool.apply_async(run,[image_path])
+        # اعرض فقط النص المستخرج بدون حفظه
+        print("\n==============================")
+        print(f"📌 Image: {image_path}")
+        print("==============================")
+        print(result[1])  # عرض النص فقط
+        print("==============================\n")
 
-    # Method2
-    # for _ in tqdm(pool.imap_unordered(run, images_paths), total=len(images_paths)):
-    #     pass
-
-    running_time = []
-
-    for images_path in tqdm(images_paths,total=len(images_paths)):
-        running_time.append(run(images_path))
-
-    running_time.sort()
-    with open('output/running_time.txt', 'w') as r:
-        for t in running_time:
-            r.writelines(f'image#{t[0]}: {t[1]}\n')       # if no need for printing 'image#id'.
-
-    # pool.close()
-    # pool.join()
     after = time.time()
-    print(f'total time to finish {len(images_paths)} images:')
-    print(after - before)
+    print(f"Total time to finish {len(images_paths)} images: {after - before}")
