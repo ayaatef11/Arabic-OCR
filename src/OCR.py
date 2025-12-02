@@ -62,7 +62,7 @@ def run(image_path):
     with open(f'output/text/{img_name}.txt', 'w', encoding='utf8') as fo:
         fo.writelines(predicted_text)
 
-    return (img_name, exc_time)
+    return (img_name, predicted_text)
 
 
 if __name__ == "__main__":
