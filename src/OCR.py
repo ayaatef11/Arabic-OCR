@@ -70,7 +70,7 @@ if __name__ == "__main__":
     images_paths = []
 
     for t in types:
-    images_paths.extend(glob(f'*.{t}'))
+       images_paths.extend(glob(f'*.{t}'))
 
 
     before = time.time()
